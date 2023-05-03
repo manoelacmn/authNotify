@@ -1,7 +1,9 @@
 package br.pro.mateus.authnotify
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Camera
 import android.os.Build
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -12,6 +14,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
@@ -64,6 +67,7 @@ class MainActivity : AppCompatActivity() {
         return userPreferencesRepository.fcmToken
     }
 
+
     // Declare the launcher at the top of your Activity/Fragment:
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -73,6 +77,68 @@ class MainActivity : AppCompatActivity() {
            navController.navigate(R.id.action_login_to_notifications_disabled)
         }
     }
+    private fun askCameraPermission(){
+//        when (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA
+                   // PackageManager.PERMISSION_GRANTED
+            ) -> {
+                Toast.makeText(applicationContext, "camera already enabled", Toast.LENGTH_SHORT).show()
+            }
+            else -> {
+                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+
+            }
+        }
+
+
+    }
+
+
+//    private fun askCameraPermission() {
+//        // This is only necessary for API level >= 33 (TIRAMISU)
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+//            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
+//                PackageManager.PERMISSION_GRANTED
+//            ) {
+//                // FCM SDK (and your app) can post notifications.
+//            } else if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+//                // TODO: display an educational UI explaining to the user the features that will be enabled
+//                //       by them granting the POST_NOTIFICATION permission. This UI should provide the user
+//                //       "OK" and "No thanks" buttons. If the user selects "OK," directly request the permission.
+//                //       If the user selects "No thanks," allow the user to continue without notifications.
+//            } else {
+//                // Directly ask for the permission
+//                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+//            }
+//        }
+//    }
+
+
+
+
+
+    /** Check if this device has a camera */
+//    private fun checkCameraHardware(context: Context): Boolean {
+//        if (context.packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+//            /** A safe way to get an instance of the Camera object. */
+//            fun getCameraInstance(): Camera? {
+//                return try {
+//                    Camera.open() // attempt to get a Camera instance
+//                } catch (e: Exception) {
+//                    // Camera is not available (in use or does not exist)
+//                    null // returns null if camera is unavailable
+//                }
+//            }
+//
+//            return true
+//        } else {
+//            // no camera on this device
+//            return false
+//        }
+//    }
+
+
 
     private fun askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
