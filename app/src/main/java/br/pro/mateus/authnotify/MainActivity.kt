@@ -90,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "camera already enabled", Toast.LENGTH_SHORT).show()
             }
             else -> {
+                Toast.makeText(applicationContext, "camera not enabled", Toast.LENGTH_SHORT).show()
                 requestPermissionLauncher.launch(
                     Manifest.permission.CAMERA)
             }
@@ -185,6 +186,9 @@ class MainActivity : AppCompatActivity() {
 
         // invocar as permissões para notificar.
         askNotificationPermission();
+
+        // invocar as permissões para camera
+        askCameraPermission()
 
     }
 
