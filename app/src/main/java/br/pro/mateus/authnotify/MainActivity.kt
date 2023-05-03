@@ -77,17 +77,21 @@ class MainActivity : AppCompatActivity() {
            navController.navigate(R.id.action_login_to_notifications_disabled)
         }
     }
+
+
+    //Toast.makeText(applicationContext, "camera already enabled", Toast.LENGTH_SHORT).show()
     private fun askCameraPermission(){
 //        when (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA)
-        val isGranted =  ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-        when (isGranted) {
-                   PackageManager.PERMISSION_GRANTED
-            -> {
+        when (PackageManager.PERMISSION_GRANTED) {
+            ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.CAMERA
+            ) -> {
                 Toast.makeText(applicationContext, "camera already enabled", Toast.LENGTH_SHORT).show()
             }
             else -> {
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
-
+                requestPermissionLauncher.launch(
+                    Manifest.permission.CAMERA)
             }
         }
 
