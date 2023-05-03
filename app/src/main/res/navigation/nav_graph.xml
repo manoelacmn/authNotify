@@ -55,7 +55,7 @@
 
     <fragment
         android:id="@+id/InfoFragment"
-        android:name="br.pro.mateus.authnotify.InfoFragment"
+        android:name="br.pro.mateus.authnotify.SendMessageFragment"
         android:label="@string/info_fragment_label"
         tools:layout="@layout/fragment_info">
 

@@ -24,7 +24,11 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.FirebaseApp
 import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.appcheck.debug.DebugAppCheckProviderFactory
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.functions.FirebaseFunctions
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
@@ -35,7 +39,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private lateinit var userPreferencesRepository: UserPreferencesRepository
+    private lateinit var auth: FirebaseAuth
+    private lateinit var functions : FirebaseFunctions
 
+    val db = Firebase.firestore
     private fun prepareFirebaseAppCheckDebug(){
         // Ajustando o AppCheck para modo depuração.
         FirebaseApp.initializeApp(this)
@@ -60,6 +67,20 @@ class MainActivity : AppCompatActivity() {
             }
             // guardar esse token.
             userPreferencesRepository.fcmToken = task.result
+
+            val user = Firebase.auth.currentUser;
+
+            //updateFcmToken();
+            fun updateFcmToken(fcmtoken: String){
+                val data = hashMapOf(
+                    "fcmtoken" to  fcmtoken
+                )
+                functions.getHttpsCallable("sendFcmMessage").call(data)
+            }
+            updateFcmToken(task.result)
+//            user?.let {
+//                val uid = it.uid
+//            }
         })
     }
 
@@ -165,6 +186,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        auth = Firebase.auth
         super.onCreate(savedInstanceState)
 
         userPreferencesRepository = UserPreferencesRepository.getInstance(this)

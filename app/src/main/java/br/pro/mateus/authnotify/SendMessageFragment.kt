@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import br.pro.mateus.authnotify.databinding.FragmentInfoBinding
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
@@ -22,7 +21,7 @@ import com.google.gson.GsonBuilder
  * dos dados e um botão: me enviar uma notificação!
  * que chamará o serviço de envio da mensagem.
  */
-class InfoFragment : Fragment() {
+class SendMessageFragment : Fragment() {
 
     private lateinit var functions: FirebaseFunctions;
     private var _binding: FragmentInfoBinding? = null
